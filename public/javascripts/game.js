@@ -22,11 +22,11 @@ function init() {
     socket.emit(SocketSignals.ctsMainStart(), {value: ''});
     //サーバからルームIDを取得s
     socket.on(SocketSignals.stcMainRoomID(), function(data){
-        room.id = data.value;
+        room.setId(data.value);
         console.log(room.url());
         $('#qrcode').qrcode(room.url());
         $('#conUrl').append('<p><a href=' + room.url() + '>controller</a></p>');
-        console.log('success in ' + room.id);
+        console.log('success in ' + room.getId());
     });
 
     requestAnimationFrame(update);
