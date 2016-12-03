@@ -1,7 +1,7 @@
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
-const SCREEN_WIDTH = 800;
-const SCREEN_HEIGHT = 600;
+const SCREEN_WIDTH = window.innerWidth + 1;
+const SCREEN_HEIGHT = window.innerHeight;
 var socket = io.connect();  //socket IO
 var lastTimestamp = null;
 
@@ -20,10 +20,9 @@ function init() {
 
     //メイン画面が生成されたことをサーバに報告
     socket.emit(SocketSignals.ctsMainStart(), {value: ''});
-    //サーバからルームIDを取得s
+    //サーバからルームIDを取得
     socket.on(SocketSignals.stcMainRoomID(), function(data){
         room.setId(data.value);
-        console.log(room.url());
         $('#qrcode').qrcode(room.url());
         $('#conUrl').append('<p><a href=' + room.url() + '>controller</a></p>');
         console.log('success in ' + room.getId());
@@ -41,7 +40,6 @@ function update(timestamp) {
     lastTimestamp = timestamp;
 
     requestAnimationFrame(update);
-
     render();
 }
 
@@ -50,10 +48,10 @@ function render() {
     //全体をクリア
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    ctx.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+
     //背景を表示
     var back = new Image();
     back.src = 'images/back.png';
     ctx.drawImage(back, 0, 0);
-
-    ctx.fillRect(0, 0, 50, 50);
 }

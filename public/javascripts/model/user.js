@@ -1,5 +1,10 @@
 class User {
-  User(userID){
-    this.userID = userID;
+  User(userId){
+    this.userId = userId;
+    var userLife = 5;
+  }
+
+  getUserId() {
+    return this.userId;
   }
 }

@@ -8,7 +8,7 @@ let lastTimestamp = null;
 
 window.addEventListener('load', init);
 
-var room;
+var room; //部屋オブジェクト
 
 
 //初期化
@@ -58,7 +58,3 @@ function render(){
     back.src = 'images/back.png';
     ctx.drawImage(back, 0, 0);
 }
-
-// this.canvas.addEventListener("touchstart", onDown, false);
-// this.canvas.addEventListener("touchend", onUP, false);
-// this.canvas.addEventListener("touchmove", onMove, false);
