@@ -1,7 +1,7 @@
 class Room {
     Room() {
       var id = '';
-      var url = 'http://192.168.1.13:3000/controller#' + this.id;
+      var url = 'http://192.168.1.5:3000/controller#' + this.id;
     }
 
     spliteSharp() {
@@ -16,7 +16,7 @@ class Room {
     }
 
     url() {
-      return 'http://192.168.1.13:3000/controller#' + this.id;
+      return 'http://192.168.1.5:3000/controller#' + this.id;
     }
 
     getId() {
