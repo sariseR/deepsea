@@ -20,14 +20,14 @@ function socketIO() {
         //ユーザID
         userId++;
         console.log('connection user: ' + userId);
-        
+
         var playerId=0;//プレイヤーID(とりあえず初期値として0)
 
         //メイン画面から受信
         socket.on(SocketSignals.ctsMainStart(), function() {
           var room = new Room();
           mainId++;
-          playerCountMap.set('room'+mainId,0);//ルームの人数をカウントするマップのキーを設定
+          playerCountMap.set('room' + mainId, 0);//ルームの人数をカウントするマップのキーを設定
           room.setId('room' + mainId);
           socket.join(room.getId());
           io.to(room.getId()).emit(SocketSignals.stcMainRoomID(), {value: room.getId()});   //部屋IDを送信
@@ -40,10 +40,17 @@ function socketIO() {
           var nowNum = playerCountMap.get(data.value);//現在の人数を取得
           playerId = nowNum + 1;//プレイヤーのIDを現在の部屋の人数＋１に設置
           playerCountMap.set(data.value,nowNum+1);//人数を一人増やす
-          console.log('Controller in ' + data.value + ' No.'+playerId);
-            
+          console.log('Controller in ' + data.value + ' No.'+ playerId);
+
           //ルームにプレイヤーがログインしたことを伝える
           io.to(data.value).emit(SocketSignals.stcMainPlayerLogin(),{value: playerId});
+        });
+
+        // タッチイベントを取得
+        socket.on(SocketSignals.ctsConTouch(), function(data) {
+          var touchFlg = data.value;
+          console.log(touchFlg);
+          io.to('room' + mainId).emit(SocketSignals.stcConTouchFlg(), {value: touchFlg});
         });
     });
 };

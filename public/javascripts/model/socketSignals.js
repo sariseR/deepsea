@@ -1,22 +1,30 @@
 class SocketSignals {
-    static ctsMainStart(){
-      return "ctsMainStart";
+    static ctsMainStart() {
+      return 'ctsMainStart';
     }
 
-    static ctsMain(){
-      return "ctsMain";
+    static ctsMain() {
+      return 'ctsMain';
     }
 
-    static ctsCon(){
-      return "ctsCon";
+    static ctsCon() {
+      return 'ctsCon';
     }
 
-    static stcMainRoomID(){
-      return "stcMainRoomID";
+    static ctsConTouch() {
+      return 'ctsConTouch';
     }
-    
-    static stcMainPlayerLogin(){
-        return "stcMainPlayerLogin";
+
+    static stcMainRoomID() {
+      return 'stcMainRoomID';
+    }
+
+    static stcMainPlayerLogin() {
+        return 'stcMainPlayerLogin';
+    }
+
+    static stcConTouchFlg() {
+      return 'stcConTouchFlg';
     }
 };
 

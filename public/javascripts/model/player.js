@@ -16,64 +16,64 @@ class Player{
             case 1:
                 this.posX =canvasWid/6*1;
                 this.posY = canvasHei/3*1;
-                Dir = 1;
+                this.Dir = 1;
                 break;
             case 2:
                 this.posX =canvasWid/6*5;
                 this.posY = canvasHei/3*1;
-                Dir = -1;
+                this.Dir = -1;
                 break;
             case 3:
                 this.posX =canvasWid/6*5;
                 this.posY = canvasHei/3*2;
-                Dir = -1;
+                this.Dir = -1;
                 break;
             case 4:
                 this.posX =canvasWid/6*1;
                 this.posY = canvasHei/3*2;
-                Dir = 1;
+                this.Dir = 1;
                 break;
             case 5:
                 this.posX =canvasWid/6*3;
                 this.posY = canvasHei/3*1;
-                Dir = 1;
+                this.Dir = 1;
                 break;
             case 6:
                 this.posX =canvasWid/6*3;
                 this.posY = canvasHei/3*2;
-                Dir = -1;
+                this.Dir = -1;
                 break;
             default:
-                
+
                 break;
         }
     }
-    
+
     //更新処理
     update(bullets){
         //コントローラの入力情報における動作
-        if(this.leftFlag == true){
+        if(this.leftFlag == true) {
             this.posX-=5;
-            Dir = -1;
+            this.Dir = -1;
         }
-        if(this.rightFlag == true){
-            this.posY+=5;
-            Dir = 1;
+        if(this.rightFlag == true) {
+            this.posX+=5;
+            this.Dir = 1;
         }
-        if(this.jumpFlag == true){
+        if(this.jumpFlag == true) {
             if(vy>-15)vy-=3;
         }
-        if(this.shotFlag == true){
+        if(this.shotFlag == true) {
             if(this.bulletTimer==0){
                 bullets.push(new Bullet(this.posX,this.posY,this.Dir,this.playerId));
                 this.bulletTimer++;
             }
         }
-        
+
         //重力処理
         if(this.vy<3)this.vy+=0.2;
         //this.posY+=this.vy;
-        
+
         if(this.bulletTimer!=0)this.bulletTimer++;
         if(this.bulletTimer==0){
             bullets.push(new Bullet(this.posX,this.posY,this.Dir,this.playerId));
@@ -81,7 +81,7 @@ class Player{
         }
         if(this.bulletTimer>=60)this.bulletTimer=0;
     }
-    
+
     //描画処理
     draw(ctx){
         switch(this.playerId){
@@ -109,30 +109,34 @@ class Player{
         }
         ctx.fillRect(this.posX-10,this.posY-10,20,20);
     }
-    
+
     //プレイヤIDを取得
     getplayerId(){
         return this.playerId;
     }
-    
+
     //左推してますフラグを立てる
     setLeftFlag(tf){
         this.leftFlag =tf;
     }
-        
+
     //右推してますフラグを立てる
     setRightFlag(tf){
         this.rightFlag =tf;
     }
-        
+
     //ジャンプ推してますフラグを立てる
     setJumpFlag(tf){
         this.jumpFlag =tf;
     }
-        
+
     //撃ってますフラグを立てる
     setShotFlag(tf){
         this.shotFlag =tf;
     }
-    
+
+    getDir() {
+      return this.Dir;
+    }
+
 }

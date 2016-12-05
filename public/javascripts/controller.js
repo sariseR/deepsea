@@ -56,8 +56,7 @@ function update(timestamp) {
     lastTimestamp = timestamp;
 
     // タップのフラグをサーバに投げる
-    // socketSignalはあとで設定
-    // socket.emit( , touchFlg);
+    // socket.emit(SocketSignals.ctsConTouch(), {value: touchFlg});
 
     requestAnimationFrame(update);
     render();
