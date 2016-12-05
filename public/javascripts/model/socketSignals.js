@@ -14,6 +14,10 @@ class SocketSignals {
     static stcMainRoomID(){
       return "stcMainRoomID";
     }
+    
+    static stcMainPlayerLogin(){
+        return "stcMainPlayerLogin";
+    }
 };
 
 module.exports = SocketSignals;
