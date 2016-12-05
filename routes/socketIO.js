@@ -16,7 +16,6 @@ function socketIO() {
 
     //socketIO接続
     io.on('connection', function(socket) {
-
         //ユーザID
         userID++;
         console.log('connection user: ' + userID);

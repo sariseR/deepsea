@@ -26,7 +26,7 @@ function init() {
     pointFlg = false;
 
     room = new Room();
-    btns = new Btn(ctx);
+    btn = new Btn();
     console.log(room.spliteSharp() + ' from controller');
     //roomIDをサーバに送信
     socket.emit(SocketSignals.ctsCon(), {value: room.getId()});
@@ -58,11 +58,8 @@ function render() {
     //全体をクリア
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    btns.draw();
+    btn.draw(ctx);
 
     //背景を表示
     // ctx.drawImage(Asset.images['back'], 0, 0);
-    var back = new Image();
-    back.src = 'images/back.png';
-    ctx.drawImage(back, 0, 0);
 }
