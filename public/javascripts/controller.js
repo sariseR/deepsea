@@ -8,7 +8,9 @@ let lastTimestamp = null;
 
 window.addEventListener('load', init);
 
-var room; //部屋オブジェクト
+var room;
+var btns = new Array();
+
 
 // スクロールを禁止
 $(window).on('touchmove.noScroll', function(e) {
@@ -23,10 +25,16 @@ function init() {
 
     pointX = 0;
     pointY = 0;
-    pointFlg = false;
 
     room = new Room();
-    btn = new Btn();
+    for(var i = 0; i < 4; i++){
+      // ボタンを4つ生成
+      btns.push(new Btn(i, 0, (SCREEN_HEIGHT / 4) * i));
+    }
+
+    touchFlg = new Array(false, false, false, false);
+    // touchFlg = new Array();
+
     console.log(room.spliteSharp() + ' from controller');
     //roomIDをサーバに送信
     socket.emit(SocketSignals.ctsCon(), {value: room.getId()});
@@ -47,7 +55,9 @@ function update(timestamp) {
     }
     lastTimestamp = timestamp;
 
-    console.log('pointX:' + Math.floor(pointX));
+    // タップのフラグをサーバに投げる
+    // socketSignalはあとで設定
+    // socket.emit( , touchFlg);
 
     requestAnimationFrame(update);
     render();
@@ -58,8 +68,19 @@ function render() {
     //全体をクリア
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    btn.draw(ctx);
+    // ボタン4つを表示
+    for(var i = 0; i < btns.length; i++){
+      btns[i].draw(ctx);
+    }
 
+    for(var i = 0; i < touchFlg.length; i++){
+      var tmp = 0;
+      if(touchFlg[i]){
+        tmp = 200;
+      }
+
+      ctx.fillRect(i * 100, 10, 50, 50 + tmp);
+    }
     //背景を表示
     // ctx.drawImage(Asset.images['back'], 0, 0);
 }

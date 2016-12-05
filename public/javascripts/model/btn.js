@@ -1,19 +1,42 @@
+/*
+  id
+  case 1: left
+  case 2: right
+  case 3: jump
+  case 4: shot
+*/
+
 class Btn {
-  Btn() {
-    var x = 0;
-    var y = 0;
-    var btnId;
-  }
-
-  collision() {
-
+  constructor(id, x, y) {
+    this.id = id;
+    this.x = x;
+    this.y = y;
+    var flg = false;  // ボタンが押されているか
   }
 
   draw(ctx) {
     // ctx.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    for(var i = 1; i <= 4; i++){
-        ctx.strokeRect(0, SCREEN_HEIGHT / 4 * i, SCREEN_WIDTH, SCREEN_HEIGHT / 4);
-    }
     // ctx.drawImage(this.Btn, x, y);
+    ctx.strokeRect(this.x, SCREEN_HEIGHT / 4 * (this.id + 1), SCREEN_WIDTH, SCREEN_HEIGHT / 4);
+  }
+
+  getX() {
+    return this.x;
+  }
+
+  getY() {
+    return this.y;
+  }
+
+  getId() {
+    return this.id;
+  }
+
+  getFlg() {
+    return this.flg;
+  }
+
+  setFlg(flg) {
+    this.flg  = flg;
   }
 }
