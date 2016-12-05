@@ -23,9 +23,8 @@ function init() {
     //サーバからルームIDを取得
     socket.on(SocketSignals.stcMainRoomID(), function(data){
         room.setId(data.value);
-        // room.createQrCode();
         $('#qrcode').qrcode(room.url());
-        $('#conUrl').append('<p><a href=' + room.getUrl() + '>controller</a></p>');
+        $('#conUrl').append('<p><a href=' + room.url() + '>controller</a></p>');
         console.log('success in ' + room.getId());
     });
 

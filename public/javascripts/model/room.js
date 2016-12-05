@@ -15,6 +15,10 @@ class Room {
       // $('#qrcode').qrcode(this.url);
     }
 
+    url() {
+      return 'http://192.168.1.13:3000/controller#' + this.id;
+    }
+
     getId() {
       return this.id;
     }
