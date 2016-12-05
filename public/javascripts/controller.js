@@ -1,7 +1,7 @@
 const canvas = document.getElementById('controllerCanvas');
 const ctx  = canvas.getContext('2d');
-const SCREEN_WIDTH = 800;
-const SCREEN_HEIGHT = 600;
+const SCREEN_WIDTH = window.innerWidth;
+const SCREEN_HEIGHT = window.innerHeight;
 const socket = io.connect();  //socket IO
 const canvasRect = canvas.getBoundingClientRect(); //キャンバスを取得
 let lastTimestamp = null;
@@ -10,9 +10,14 @@ window.addEventListener('load', init);
 
 var room; //部屋オブジェクト
 
+// スクロールを禁止
+$(window).on('touchmove.noScroll', function(e) {
+    e.preventDefault();
+});
+
 
 //初期化
-function init(){
+function init() {
     canvas.width = SCREEN_WIDTH;
     canvas.height = SCREEN_HEIGHT;
 
@@ -21,6 +26,7 @@ function init(){
     pointFlg = false;
 
     room = new Room();
+    btns = new Btn(ctx);
     console.log(room.spliteSharp() + ' from controller');
     //roomIDをサーバに送信
     socket.emit(SocketSignals.ctsCon(), {value: room.getId()});
@@ -33,7 +39,7 @@ function init(){
 
 
 //更新処理
-function update(timestamp){
+function update(timestamp) {
     //遅延によるずれをなくす
     var delta = 0;
     if(lastTimestamp != null){
@@ -48,9 +54,11 @@ function update(timestamp){
 }
 
 //再描画
-function render(){
+function render() {
     //全体をクリア
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    btns.draw();
 
     //背景を表示
     // ctx.drawImage(Asset.images['back'], 0, 0);

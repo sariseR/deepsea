@@ -1,11 +1,7 @@
 class Room {
     Room() {
       var id = '';
-    }
-
-    url() {
-        var url = 'http://localhost:3000/controller#' + this.id;
-        return url;
+      var url = 'http://192.168.1.13:3000/controller#' + this.id;
     }
 
     spliteSharp() {
@@ -15,12 +11,20 @@ class Room {
       return this.id;
     }
 
-    getId(){
+    createQrCode() {
+      // $('#qrcode').qrcode(this.url);
+    }
+
+    getId() {
       return this.id;
     }
 
-    setId(id){
+    setId(id) {
       this.id = id;
+    }
+
+    getUrl() {
+      return this.url;
     }
 }
 
