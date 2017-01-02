@@ -1,5 +1,7 @@
 var Player = function(playerId, canvasWid, canvasHei) {
+  
   this.playerId = playerId;
+  var bullets = new Array();//弾丸オブジェクト
   var posX;
   var posY;
   var vy = 0;
@@ -49,7 +51,7 @@ var Player = function(playerId, canvasWid, canvasHei) {
 }
 
 //更新処理
-Player.prototype.update = function(bullets) {
+Player.prototype.update = function() {
   //コントローラの入力情報における動作
   if(this.leftFlag == true) {
       this.posX-=5;
@@ -63,22 +65,27 @@ Player.prototype.update = function(bullets) {
       if(vy>-15)vy-=3;
   }
   if(this.shotFlag == true) {
-      if(this.bulletTimer==0){
-          bullets.push(new Bullet(this.posX,this.posY,this.Dir,this.playerId));
+      /*if(this.bulletTimer==0){
+          this.bullets.push(new Bullet(this.posX,this.posY,this.Dir,this.playerId));
           this.bulletTimer++;
-      }
+      }*/
   }
 
   //重力処理
   if(this.vy<3)this.vy+=0.2;
-  //this.posY+=this.vy;
+  this.posY+=this.vy;
 
   if(this.bulletTimer!=0)this.bulletTimer++;
   if(this.bulletTimer==0){
-      bullets.push(new Bullet(this.posX,this.posY,this.Dir,this.playerId));
+     // this.bullets.push(new Bullet(this.posX,this.posY,this.Dir,this.playerId));
       this.bulletTimer++;
   }
   if(this.bulletTimer>=60)this.bulletTimer=0;
+    /*
+  for(var i = 0;i<this.bullets.length;i++){
+      this.bullets[i].update();
+  }
+  */
 }
 
 //描画処理
@@ -107,6 +114,9 @@ Player.prototype.draw = function(ctx) {
       break;
   }
   ctx.fillRect(this.posX-10,this.posY-10,20,20);
+  //for(var i = 0;i<this.bullets.length;i++){
+//      this.bullets[i].draw(ctx);
+//  }
 }
 
 //プレイヤIDを取得

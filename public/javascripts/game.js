@@ -8,7 +8,7 @@ var lastTimestamp = null;
 
 var room; //部屋オブジェクト
 var players = new Array();  // プレイヤオブジェクトの配列
-var bullets = new Array();  // 弾丸オブジェクトの配列
+//var bullets = new Array();  // 弾丸オブジェクトの配列
 window.addEventListener('load', init);
 
 
@@ -49,11 +49,12 @@ function update(timestamp) {
     lastTimestamp = timestamp;
     //プレイヤの更新処理を行う
     for(var i = 0; i < players.length; i++) {
-        players[i].update(bullets);
+        players[i].update();
     }
+    /*
     for(var i = 0; i < bullets.length; i++) {
         bullets[i].update();
-    }
+    }*/
 
     socket.on(SocketSignals.stcConTouchFlg(), function(data) {
       var touchFlg = data.value;
@@ -108,7 +109,8 @@ function render() {
     for(var i = 0;i<players.length;i++){
         players[i].draw(ctx);
     }
+    /*
     for(var i = 0;i<bullets.length;i++){
         bullets[i].draw(ctx);
-    }
+    }*/
 }

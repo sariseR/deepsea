@@ -7,7 +7,7 @@ var Bullet = function(posX, posY, Dir, playerId) {
 }
 
 Bullet.prototype.update = function() {
-  posX += 5 * this.Dir;
+  this.posX += 5 * this.Dir;
 }
 
 Bullet.prototype.draw = function(ctx) {
