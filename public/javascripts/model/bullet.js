@@ -4,6 +4,7 @@ var Bullet = function(posX, posY, Dir, playerId) {
   this.posY = posY;
   this.Dir = Dir;//方向（左：−１、右：１）
   this.playerId = playerId;
+  
 }
 
 Bullet.prototype.update = function() {
@@ -12,9 +13,19 @@ Bullet.prototype.update = function() {
 
 Bullet.prototype.draw = function(ctx) {
   ctx.fillStyle = "rgba(255,0,0,1)";
-  ctx.fillRect(this.posX-5,this.posY-5,10,10);
+  ctx.fillRect(this.posX-5,this.posY-3,10,6);
 }
-
+//座標取得
+Bullet.prototype.getPosX = function(){
+    return this.posX;
+}
+Bullet.prototype.getPosY = function(){
+    return this.posY;
+}
+//プレイヤid取得
+Bullet.prototype.getPlayerId = function(){
+    return this.playerId;
+}
 
 // class Bullet{
 //     constructor(posX,posY,Dir,playerId){

@@ -21,6 +21,9 @@ SocketSignals.stcMainPlayerLogin = function() {
 SocketSignals.stcConTouchFlg = function() {
   return 'stcConTouchFlg';
 }
+SocketSignals.stcDisconnectInfo = function(){
+  return 'stcDisconnectInfo';
+}
 
 module.exports = SocketSignals;
 

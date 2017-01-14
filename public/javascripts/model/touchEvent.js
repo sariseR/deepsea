@@ -1,3 +1,4 @@
+/*
 var touchFlg = [];
 
 function onDown(e) {
@@ -9,7 +10,8 @@ function onDown(e) {
     }
   }
   // タッチイベントをサーバに送信
-  socket.emit(SocketSignals.ctsConTouch(), {value: touchFlg});
+    id=1;
+  socket.emit(SocketSignals.ctsConTouch(), {value: touchFlg,id: id});
 }
 
 function onUp(e) {
@@ -19,7 +21,7 @@ function onUp(e) {
     }
   }
   // タッチイベントをサーバに送信
-  socket.emit(SocketSignals.ctsConTouch(), {value: touchFlg});
+  socket.emit(SocketSignals.ctsConTouch(), {value: touchFlg,id: id});
 }
 
 canvas.addEventListener("mousedown", onDown, false);
@@ -27,3 +29,4 @@ canvas.addEventListener("mouseup", onUp, false);
 
 canvas.addEventListener("touchstart", onDown, false);
 canvas.addEventListener("touchend", onUp, false);
+*/

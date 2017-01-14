@@ -7,8 +7,10 @@ const canvasRect = canvas.getBoundingClientRect(); //キャンバスを取得
 let lastTimestamp = null;
 
 window.addEventListener('load', init);
-
+var touchPoint_1;
+var touchPoint_2;
 var room;
+var id = null;//プレイヤーのid
 var btns = new Array();
 
 
@@ -38,6 +40,13 @@ function init() {
     console.log(room.spliteSharp() + ' from controller');
     //roomIDをサーバに送信
     socket.emit(SocketSignals.ctsCon(), {value: room.getId()});
+    
+    socket.on(SocketSignals.stcMainPlayerLogin(),function(data) {
+        if(id == null){
+            id = data.value;//idが登録されていなければidを登録する
+        }
+        console.log('player '+data.value+' login!');
+    });
 
     // Asset.loadAssets(function(){
     //     requestAnimationFrame(update);
@@ -83,3 +92,78 @@ function render() {
     //背景を表示
     // ctx.drawImage(Asset.images['back'], 0, 0);
 }
+
+var touchFlg = [];
+
+function onDown(e) {
+  for(var i = 0; i < touchFlg.length; i++){
+    if((e.touches[0].pageY - canvasRect.top) > (SCREEN_HEIGHT / 4) * i &&
+    (e.touches[0].pageY - canvasRect.top) < (SCREEN_HEIGHT / 4) * (i + 1)) {
+      pointX = 3000;
+      touchFlg[i] = true;
+      touchPoint_1 = i;
+    }
+    if(e.touches.length==2){  
+    if((e.touches[1].pageY - canvasRect.top) > (SCREEN_HEIGHT / 4) * i &&
+    (e.touches[1].pageY - canvasRect.top) < (SCREEN_HEIGHT / 4) * (i + 1)) {
+      pointX = 3000;
+      touchFlg[i] = true;
+      touchPoint_2 = i;
+    }
+    }
+  }
+  // タッチイベントをサーバに送信
+  socket.emit(SocketSignals.ctsConTouch(), {value: touchFlg,id: id});
+}
+
+function onUp(e) {
+    /*
+      for(var i = 0; i < touchFlg.length; i++){
+    if((e.changedTouches[0].pageY - canvasRect.top) > (SCREEN_HEIGHT / 4) * i &&
+    (e.changedTouches[0].pageY - canvasRect.top) < (SCREEN_HEIGHT / 4) * (i + 1)) {
+      pointX = 3000;
+      touchFlg[i] = false;
+      touchPoint_1 = i;
+    }
+      
+    if((e.changedTouches[1].pageY - canvasRect.top) > (SCREEN_HEIGHT / 4) * i &&
+    (e.changedTouches[1].pageY - canvasRect.top) < (SCREEN_HEIGHT / 4) * (i + 1)) {
+      pointX = 3000;
+      touchFlg[i] = false;
+      touchPoint_2 = i;
+    }
+  }*/
+    
+    if(e.touches.length==1){
+        //touchFlg[touchPoint_2]=false;
+        for(var i = 0; i < touchFlg.length; i++){
+            if(!((e.touches[0].pageY - canvasRect.top) > (SCREEN_HEIGHT / 4) * i &&
+            (e.touches[0].pageY - canvasRect.top) < (SCREEN_HEIGHT / 4) * (i + 1))) {
+                touchFlg[i] = false;
+            }
+        }
+    }
+    else if(e.touches.length ==0){
+        for(var i = 0; i < touchFlg.length; i++){
+            if(touchFlg[i]) {
+            touchFlg[i] = false;
+            }
+        }
+    }
+    /*
+  for(var i = 0; i < touchFlg.length; i++){
+    if(touchFlg[i]) {
+      touchFlg[i] = false;
+    }
+  }
+  */
+  // タッチイベントをサーバに送信
+  socket.emit(SocketSignals.ctsConTouch(), {value: touchFlg,id: id});
+}
+
+canvas.addEventListener("mousedown", onDown, false);
+canvas.addEventListener("mouseup", onUp, false);
+
+canvas.addEventListener("touchstart", onDown, false);
+canvas.addEventListener("touchend", onUp, false);
+
