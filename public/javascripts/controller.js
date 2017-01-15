@@ -12,12 +12,14 @@ var touchPoint_2;
 var room;
 var id = null;//プレイヤーのid
 var btns = new Array();
+const titleWidth = '240';
+const titleHeight = '480';
 
 // 画像
 var conBackImg = new Image(); // 背景
 conBackImg.src = 'images/controller_back.png';
 var titleImg = new Image();
-titleImg.src = 'images/player1.png';
+titleImg.src = 'images/title.png';
 //ボタン
 var offLeftImg = new Image();
 offLeftImg.src = 'images/offLeftBtn.png';
@@ -112,7 +114,7 @@ function render() {
     ctx.drawImage(conBackImg, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
     // タイトル画像描画
-    ctx.drawImage(titleImg, SCREEN_WIDTH / 3 - titleImg.width / 2, SCREEN_HEIGHT / 2 - titleImg.height / 2, 200, 200);
+    ctx.drawImage(titleImg, SCREEN_WIDTH / 3 - titleImg.width / 2, SCREEN_HEIGHT / 2 - titleHeight / 2, titleWidth, titleHeight);
 
     // ボタン4つを表示
     var offBtnImages = new Array(offLeftImg, offRightImg, offJumpImg, offShotImg);
