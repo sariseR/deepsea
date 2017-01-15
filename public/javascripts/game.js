@@ -2,7 +2,7 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 const SCREEN_WIDTH = window.innerWidth + 1;
 const SCREEN_HEIGHT = window.innerHeight;
-const ROOM_ADDRESS = 'http://192.168.1.5:3000';  // PC側のアドレス
+const ROOM_ADDRESS = 'http://ntpr-master.herokuapp.com';  // PC側のアドレス
 var socket = io.connect();  //socket IO
 var lastTimestamp = null;
 var room; //部屋オブジェクト
@@ -13,6 +13,8 @@ var startflag = false;//対戦開始フラグ
 var finishflag = false;//対戦終了フラフ
 var winPlayerId = 0;//生き残ったプレイヤーのid
 var playerCount=0;//生存プレイヤー人数
+var babbleTimer = 0;//泡タイマー
+var babbleX=0;
 canvas.addEventListener('mousemove', mouseMove, true);//マウス座標取得リスナ
 canvas.addEventListener('mousedown', mouseDown, true);//マウス押し込み取得リスナ
 canvas.addEventListener('mouseup', mouseUp, true);//マウス離し取得リスナ
@@ -143,8 +145,8 @@ function update(timestamp) {
         //各プレイヤーと弾丸の当たり判定を取る(複雑になる場合メソッド化)
         
         for(var j = 0;j < players.length; j++){
-            if(players[j].getPosX()+10>bullets[i].getPosX()&&players[j].getPosX()-10<bullets[i].getPosX()
-              &&players[j].getPosY()+10>bullets[i].getPosY()&&players[j].getPosY()-10<bullets[i].getPosY()){
+            if(players[j].getPosX()+24>bullets[i].getPosX()&&players[j].getPosX()-24<bullets[i].getPosX()
+              &&players[j].getPosY()+24>bullets[i].getPosY()&&players[j].getPosY()-24<bullets[i].getPosY()){
                 console.log('hit!!');
                 //弾丸とidが一致しない場合
                 if(bullets[i].getPlayerId() != players[j].getplayerId()){
@@ -206,6 +208,14 @@ function update(timestamp) {
     });
     */
         //bullets.push(new Bullet(Math.floor( Math.random() *canvas.width ),canvas.height+20,0,0)) ;
+        babbleTimer++;
+        if(babbleTimer>=245-canvas.width/20){
+            babbleTimer=0;
+            babbleX=Math.floor( Math.random() *canvas.width );
+        }
+        if(babbleTimer<=30){
+            bullets.push(new Bullet(babbleX+(Math.floor( Math.random() *50)-25),canvas.height+20,0,0)) ;
+        }
     }
 
     requestAnimationFrame(update);

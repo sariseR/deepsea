@@ -10,8 +10,8 @@ var Bullet = function(posX, posY, Dir, playerId) {
 Bullet.prototype.update = function() {
   if(this.Dir!=0)this.posX += 5 * this.Dir;
   else{
-      this.posY-=5;
-      this.posX+=Math.cos(this.posY/30)*5;
+      this.posY-=3;
+      this.posX+=Math.cos(this.posY/80)*5;
   }
 }
 
