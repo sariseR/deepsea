@@ -2,7 +2,7 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 const SCREEN_WIDTH = window.innerWidth + 1;
 const SCREEN_HEIGHT = window.innerHeight;
-const ROOM_ADDRESS = 'http://192.168.1.5:3000';  // PC側のアドレス
+const ROOM_ADDRESS = 'https://git.heroku.com/ntpr-master.git:3000';  // PC側のアドレス
 var socket = io.connect();  //socket IO
 var lastTimestamp = null;
 var room; //部屋オブジェクト
