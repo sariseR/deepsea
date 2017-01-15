@@ -209,7 +209,7 @@ function update(timestamp) {
     */
         //bullets.push(new Bullet(Math.floor( Math.random() *canvas.width ),canvas.height+20,0,0)) ;
         babbleTimer++;
-        if(babbleTimer>=45+canvas.width/20){
+        if(babbleTimer>=245-canvas.width/20){
             babbleTimer=0;
             babbleX=Math.floor( Math.random() *canvas.width );
         }
