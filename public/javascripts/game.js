@@ -3,6 +3,7 @@ const ctx = canvas.getContext('2d');
 const SCREEN_WIDTH = window.innerWidth + 1;
 const SCREEN_HEIGHT = window.innerHeight;
 const ROOM_ADDRESS = 'http://ntpr-master.herokuapp.com';  // PC側のアドレス
+//const ROOM_ADDRESS = 'http://192.168.1.5:3000';  // PC側のアドレス
 var socket = io.connect();  //socket IO
 var lastTimestamp = null;
 var room; //部屋オブジェクト
@@ -13,7 +14,7 @@ var startflag = false;//対戦開始フラグ
 var finishflag = false;//対戦終了フラフ
 var winPlayerId = 0;//生き残ったプレイヤーのid
 var playerCount=0;//生存プレイヤー人数
-var babbleTimer = 0;//泡タイマー
+var babbleTimer = 1;//泡タイマー
 var babbleX=0;
 canvas.addEventListener('mousemove', mouseMove, true);//マウス座標取得リスナ
 canvas.addEventListener('mousedown', mouseDown, true);//マウス押し込み取得リスナ
@@ -23,6 +24,30 @@ var testCount;//動作確認用カウンター
 window.addEventListener('load', init);
 var backImage = new Image();
 backImage.src = "images/back.png";
+var image_0 = new Image();
+image_0.src = "images/0.png";
+var image_1 = new Image();
+image_1.src = "images/1.png";
+var image_2 = new Image();
+image_2.src = "images/2.png";
+var image_3 = new Image();
+image_3.src = "images/3.png";
+var image_4 = new Image();
+image_4.src = "images/4.png";
+var image_5 = new Image();
+image_5.src = "images/5.png";
+var image_6 = new Image();
+image_6.src = "images/6.png";
+var startImage = new Image();
+startImage.src = "images/start.png";
+var restartImage = new Image();
+restartImage.src = "images/restart.png";
+var winImage = new Image();
+winImage.src = "images/win.png";
+var mizunomiImage = new Image();
+mizunomiImage.src = "images/mizunomi.png";
+var titleImage = new Image();
+titleImage.src = "images/title-normal.png";
 
 function Point(){//プレイヤーのマウスの座標を格納するクラス(随時拡張予定)
     this.x = 0;
@@ -249,22 +274,83 @@ function render() {
     if(finishflag == true){
         ctx.font = "24px 'ＭＳ Ｐゴシック'";
         ctx.fillStyle = "rgba(205,205,205,1)";
-        ctx.fillText(winPlayerId+"P WIN!!",SCREEN_WIDTH/2,SCREEN_HEIGHT/2);
-        ctx.fillText("RESTART",SCREEN_WIDTH/2,SCREEN_HEIGHT/2+45);
-        ctx.strokeRect(SCREEN_WIDTH/2-70,SCREEN_HEIGHT/2+20,140,30);
+        //ctx.fillText(winPlayerId+"P WIN!!",SCREEN_WIDTH/2,SCREEN_HEIGHT/2);
+        var numImage;
+        switch(winPlayerId){
+            case 0:
+                numImage = image_0;
+                break;
+            case 1:
+                numImage = image_1;
+                break;
+            case 2:
+                numImage = image_2;
+                break;
+            case 3:
+                numImage = image_3;
+                break;
+            case 4:
+                numImage = image_4;
+                break;
+            case 5:
+                numImage = image_5;
+                break;
+            case 6:
+                numImage = image_6;
+                break;
+            default:
+                numImage = image_0;
+                break;
+        }
+        ctx.drawImage(numImage,SCREEN_WIDTH/2-60,SCREEN_HEIGHT/2-10);
+        ctx.drawImage(winImage,SCREEN_WIDTH/2-70,SCREEN_HEIGHT/2-10);
+        //ctx.fillText("RESTART",SCREEN_WIDTH/2,SCREEN_HEIGHT/2+45);
+        //ctx.strokeRect(SCREEN_WIDTH/2-70,SCREEN_HEIGHT/2+20,140,30);
         if(mouse.x>=SCREEN_WIDTH/2-70&&mouse.x<=SCREEN_WIDTH/2-70+140&&mouse.y>=SCREEN_HEIGHT/2+20&&mouse.y<=SCREEN_HEIGHT/2+20+30){
         ctx.fillStyle = "rgba(205,205,205,0.2)";
         ctx.fillRect(SCREEN_WIDTH/2-70,SCREEN_HEIGHT/2+20,140,30);
-    }
+        }
+        ctx.drawImage(restartImage,SCREEN_WIDTH/2-70,SCREEN_HEIGHT/2+20);
     }
     else if(startflag==false){
     ctx.font = "24px 'ＭＳ Ｐゴシック'";
     ctx.fillStyle = "rgba(205,205,205,1)";
     ctx.strokeStyle = "rgba(205,205,250,1)";
     ctx.textAlign="center";
-    ctx.fillText(players.length+"人",SCREEN_WIDTH/2,SCREEN_HEIGHT/2);
-    ctx.fillText("START",SCREEN_WIDTH/2,SCREEN_HEIGHT/2+45);
-    ctx.strokeRect(SCREEN_WIDTH/2-70,SCREEN_HEIGHT/2+20,140,30);
+    //ctx.fillText(players.length+"人",SCREEN_WIDTH/2,SCREEN_HEIGHT/2);
+            var numImage;
+        switch(players.length){
+            case 0:
+                numImage = image_0;
+                break;
+            case 1:
+                numImage = image_1;
+                break;
+            case 2:
+                numImage = image_2;
+                break;
+            case 3:
+                numImage = image_3;
+                break;
+            case 4:
+                numImage = image_4;
+                break;
+            case 5:
+                numImage = image_5;
+                break;
+            case 6:
+                numImage = image_6;
+                break;
+            default:
+                numImage = image_0;
+                break;
+        }
+        ctx.drawImage(titleImage,SCREEN_WIDTH/2-100,SCREEN_HEIGHT/2-120,200,100);
+        ctx.drawImage(numImage,SCREEN_WIDTH/2-75,SCREEN_HEIGHT/2-10);
+        ctx.drawImage(mizunomiImage,SCREEN_WIDTH/2-60,SCREEN_HEIGHT/2-10);
+        ctx.drawImage(startImage,SCREEN_WIDTH/2-70,SCREEN_HEIGHT/2+20);
+    //ctx.fillText("START",SCREEN_WIDTH/2,SCREEN_HEIGHT/2+45);
+    //ctx.strokeRect(SCREEN_WIDTH/2-70,SCREEN_HEIGHT/2+20,140,30);
         if(mouse.x>=SCREEN_WIDTH/2-70&&mouse.x<=SCREEN_WIDTH/2-70+140&&mouse.y>=SCREEN_HEIGHT/2+20&&mouse.y<=SCREEN_HEIGHT/2+20+30){
         ctx.fillStyle = "rgba(205,205,205,0.2)";
         ctx.fillRect(SCREEN_WIDTH/2-70,SCREEN_HEIGHT/2+20,140,30);

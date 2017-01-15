@@ -1,11 +1,4 @@
-var image_1 = new Image();
-image_1.src = "images/player_1.png";
-var image_2 = new Image();
-image_2.src = "images/player_2.png";
-var image_1_2 = new Image();
-image_1_2.src = "images/player_1_2.png";
-var image_2_2 = new Image();
-image_2_2.src = "images/player_2_2.png";
+
 var playerImage_1R = new Image();
 playerImage_1R.src = "images/player1R.png";
 var playerImage_1R = new Image();
