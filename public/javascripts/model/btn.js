@@ -5,24 +5,43 @@
   case 3: jump
   case 4: shot
 */
-Btn = function(id, x, y) {
+Btn = function(id, x, y, width, height) {
   this.id = id;
   this.x = x;
   this.y = y;
+  this.width = width;
+  this.height = height;
   var flg = false;  // ボタンが押されているか
-}
+ }
 
 //描画処理
-Btn.prototype.draw = function(ctx) {
-  ctx.strokeRect(this.x, SCREEN_HEIGHT / 4 * (this.id + 1), SCREEN_WIDTH, SCREEN_HEIGHT / 4);
+Btn.prototype.draw = function(ctx, img) {
+
+  ctx.drawImage(img, this.x, this.y, 300, 300);
+}
+
+//ボタンが押されているか
+Btn.prototype.hitBoxFlg = function(x, y) {
+  if(this.x <= x && this.x + this.width >= x &&
+      this.y <= y && this.y + this.height >= y) return true;
+
+  return false;
 }
 
 Btn.prototype.getX = function() {
   return this.x;
 }
 
+Btn.prototype.setX = function(x) {
+  this.x = x;
+}
+
 Btn.prototype.getY = function() {
   return this.y;
+}
+
+Btn.prototype.setY = function(y) {
+  this.y = y;
 }
 
 Btn.prototype.getId = function() {
