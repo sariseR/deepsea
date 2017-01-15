@@ -8,12 +8,20 @@ var Bullet = function(posX, posY, Dir, playerId) {
 }
 
 Bullet.prototype.update = function() {
-  this.posX += 5 * this.Dir;
+  if(this.Dir!=0)this.posX += 5 * this.Dir;
+  else{
+      this.posY-=5;
+      this.posX+=Math.cos(this.posY/30)*5;
+  }
 }
 
 Bullet.prototype.draw = function(ctx) {
-  ctx.fillStyle = "rgba(255,0,0,1)";
-  ctx.fillRect(this.posX-5,this.posY-3,10,6);
+  ctx.fillStyle = "rgba(255,255,255,0.7)";
+  ctx.strokeStyle = "rgba(255,255,255,0.7)";
+  //ctx.fillRect(this.posX-5,this.posY-3,10,6);
+  ctx.beginPath();
+  ctx.arc(this.posX, this.posY, 5, 0, Math.PI*2, false);
+  ctx.stroke();
 }
 //座標取得
 Bullet.prototype.getPosX = function(){

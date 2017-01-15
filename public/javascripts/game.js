@@ -2,7 +2,7 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 const SCREEN_WIDTH = window.innerWidth + 1;
 const SCREEN_HEIGHT = window.innerHeight;
-const ROOM_ADDRESS = 'http://ntpr-master.herokuapp.com';  // PC側のアドレス
+const ROOM_ADDRESS = 'http://192.168.1.5:3000';  // PC側のアドレス
 var socket = io.connect();  //socket IO
 var lastTimestamp = null;
 var room; //部屋オブジェクト
@@ -19,6 +19,8 @@ canvas.addEventListener('mouseup', mouseUp, true);//マウス離し取得リス�
 var bullets = new Array();  // 弾丸オブジェクトの配列
 var testCount;//動作確認用カウンター
 window.addEventListener('load', init);
+var backImage = new Image();
+backImage.src = "images/back.png";
 
 function Point(){//プレイヤーのマウスの座標を格納するクラス(随時拡張予定)
     this.x = 0;
@@ -129,7 +131,7 @@ function update(timestamp) {
         if(players[i].getAlive()==true){//プレイヤが生存していれば
             players[i].update();
             if(players[i].getShotStartFlag()==true){//i番目のプレイヤがショットを行なっている場合
-                bullets.push(new Bullet(players[i].getPosX(),players[i].getPosY(),players[i].getDir(),players[i].getplayerId()));
+                bullets.push(new Bullet(players[i].getPosX()+players[i].getDir()*15,players[i].getPosY()-20,players[i].getDir(),players[i].getplayerId()));
                 players[i].setShotFin();
             }
         }
@@ -203,6 +205,7 @@ function update(timestamp) {
       }
     });
     */
+        //bullets.push(new Bullet(Math.floor( Math.random() *canvas.width ),canvas.height+20,0,0)) ;
     }
 
     requestAnimationFrame(update);
@@ -213,8 +216,9 @@ function update(timestamp) {
 function render() {
     //全体をクリア
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "rgba(0,0,0,1)";
-    ctx.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    //ctx.fillStyle = "rgba(0,0,0,1)";
+    //ctx.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    ctx.drawImage(backImage,0,0,canvas.width,canvas.height);
 
     //背景を表示
     // var back = new Image();
@@ -261,9 +265,12 @@ function render() {
     
 }
 function mouseMove(event){
+    var rect = canvas.getBoundingClientRect();
     // マウスカーソル座標の更新
-    mouse.x = event.clientX - canvas.offsetLeft;
-    mouse.y = event.clientY - canvas.offsetTop;
+    //mouse.x = event.clientX - canvas.offsetLeft;
+    //mouse.y = event.clientY - canvas.offsetTop;  
+    mouse.x = event.clientX - rect.left;
+    mouse.y = event.clientY - rect.top;  
 }
 function  mouseDown(event){
     mousePless = true;

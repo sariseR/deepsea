@@ -6,6 +6,12 @@ var image_1_2 = new Image();
 image_1_2.src = "images/player_1_2.png";
 var image_2_2 = new Image();
 image_2_2.src = "images/player_2_2.png";
+var playerImage_1R = new Image();
+playerImage_1R.src = "images/player1R.png";
+var playerImage_1R = new Image();
+playerImage_1R.src = "images/player1R.png";
+var playerImage_1L = new Image();
+playerImage_1L.src = "images/player1.png";
 var Player = function(playerId, canvasWid, canvasHei) {
   
   this.playerId = playerId;
@@ -100,24 +106,24 @@ this.beforeJumpFlag = this.jumpFlag;
     
   //フィールドの当たり判定//***********************
     //底
-  if(this.posY>this.stageHei-10){
-      this.posY = this.stageHei-10;
+  if(this.posY>this.stageHei-20){
+      this.posY = this.stageHei-20;
       this.vy = 0;
   }
     //上天井
-    if(this.posY<10){
-        this.posY = 10;
+    if(this.posY<20){
+        this.posY = 20;
         this.vy = 0;
     }
     
     //右壁
-    if(this.posX>this.stageWid-10){
-        this.posX = this.stageWid - 10;
+    if(this.posX>this.stageWid-20){
+        this.posX = this.stageWid - 20;
         this.vx = 0;
     }
     //左壁
-    if(this.posX<10){
-        this.posX = 10;
+    if(this.posX<20){
+        this.posX = 20;
         this.vx = 0;
     }
     
@@ -157,15 +163,17 @@ Player.prototype.draw = function(ctx) {
   }
   //ctx.fillRect(this.posX-10,this.posY-10,20,20);
   if(this.Dir == 1){
-      if(this.vy>=0)ctx.drawImage(image_1_2,this.posX-13,this.posY-13);
-      else ctx.drawImage(image_2_2,this.posX-13,this.posY-13);
+      //if(this.vy>=0)ctx.drawImage(image_1_2,this.posX-13,this.posY-13);
+     // else ctx.drawImage(image_2_2,this.posX-13,this.posY-13);
+      ctx.drawImage(playerImage_1R,this.posX-32,this.posY-32);
   }else{
-      if(this.vy>=0)ctx.drawImage(image_1,this.posX-13,this.posY-13);
-      else ctx.drawImage(image_2,this.posX-13,this.posY-13);
+      //if(this.vy>=0)ctx.drawImage(image_1,this.posX-13,this.posY-13);
+      //else ctx.drawImage(image_2,this.posX-13,this.posY-13);
+      ctx.drawImage(playerImage_1L,this.posX-32,this.posY-32);
   }
     ctx.textAlign="center";
     ctx.font = "16px 'ＭＳ Ｐゴシック'";
-    ctx.strokeText(this.playerId+"P",this.posX,this.posY-16);
+    ctx.strokeText(this.playerId+"P",this.posX,this.posY-32);
   
   //console.log('player '+this.playerId+' draw!');
   //for(var i = 0;i<this.bullets.length;i++){
