@@ -57,7 +57,9 @@ var Player = function(playerId, canvasWid, canvasHei) {
           this.Dir = -1;
           break;
       default:
-
+          this.posX =canvasWid/2;
+          this.posY = canvasHei/2;
+          this.Dir = -1;
           break;
   }
     this.vy = 0;

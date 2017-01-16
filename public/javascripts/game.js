@@ -310,7 +310,7 @@ function render() {
         ctx.fillStyle = "rgba(205,205,205,0.2)";
         ctx.fillRect(SCREEN_WIDTH/2-70,SCREEN_HEIGHT/2+20,140,30);
         }
-        ctx.drawImage(restartImage,SCREEN_WIDTH/2-70,SCREEN_HEIGHT/2+20);
+        ctx.drawImage(restartImage,SCREEN_WIDTH/2-70,SCREEN_HEIGHT/2+20,140,30);
     }
     else if(startflag==false){
     ctx.font = "24px 'ＭＳ Ｐゴシック'";
