@@ -158,11 +158,11 @@ Player.prototype.draw = function(ctx) {
   if(this.Dir == 1){
       //if(this.vy>=0)ctx.drawImage(image_1_2,this.posX-13,this.posY-13);
      // else ctx.drawImage(image_2_2,this.posX-13,this.posY-13);
-      ctx.drawImage(playerImage_1R,this.posX-32,this.posY-32);
+      ctx.drawImage(playerImage_1R,this.posX-32,this.posY-32,64,64);
   }else{
       //if(this.vy>=0)ctx.drawImage(image_1,this.posX-13,this.posY-13);
       //else ctx.drawImage(image_2,this.posX-13,this.posY-13);
-      ctx.drawImage(playerImage_1L,this.posX-32,this.posY-32);
+      ctx.drawImage(playerImage_1L,this.posX-32,this.posY-32,64,64);
   }
     ctx.textAlign="center";
     ctx.font = "16px 'ＭＳ Ｐゴシック'";

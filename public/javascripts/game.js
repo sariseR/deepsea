@@ -2,7 +2,7 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 const SCREEN_WIDTH = window.innerWidth + 1;
 const SCREEN_HEIGHT = window.innerHeight;
-const ROOM_ADDRESS = 'http://ntpr-master.herokuapp.com';  // PC側のアドレス
+const ROOM_ADDRESS = 'http://deepsea-rp.herokuapp.com';  // PC側のアドレス
 //const ROOM_ADDRESS = 'http://192.168.1.5:3000';  // PC側のアドレス
 var socket = io.connect();  //socket IO
 var lastTimestamp = null;
@@ -68,7 +68,7 @@ function init() {
         room.setId(data.value);
         console.log(data.value);
         $('#qrcode').qrcode(room.url());
-        $('#conUrl').append('<p><a href=' + room.url() + '>controller</a></p>');
+        //$('#conUrl').append('<p><a href=' + room.url() + '>controller</a></p>');
         console.log('success in ' + room.getId());
         console.log('canvas size '+canvas.width+":"+canvas.height);
     });
@@ -131,7 +131,7 @@ function init() {
 function update(timestamp) {
     var delta = 0;
     
-    if(mouse.x>=SCREEN_WIDTH/2-70&&mouse.x<=SCREEN_WIDTH/2-70+140&&mouse.y>=SCREEN_HEIGHT/2+20&&mouse.y<=SCREEN_HEIGHT/2+20+30&&mousePless==true&&startflag==false){
+    if(players.length>1&&mouse.x>=SCREEN_WIDTH/2-70&&mouse.x<=SCREEN_WIDTH/2-70+140&&mouse.y>=SCREEN_HEIGHT/2+20&&mouse.y<=SCREEN_HEIGHT/2+20+30&&mousePless==true&&startflag==false){
         startflag=true;
         finishflag=false;
         for(var i = 0; i < players.length; i++ ){
@@ -302,8 +302,8 @@ function render() {
                 numImage = image_0;
                 break;
         }
-        ctx.drawImage(numImage,SCREEN_WIDTH/2-60,SCREEN_HEIGHT/2-10);
-        ctx.drawImage(winImage,SCREEN_WIDTH/2-70,SCREEN_HEIGHT/2-10);
+        ctx.drawImage(numImage,SCREEN_WIDTH/2-60,SCREEN_HEIGHT/2-10,30,30);
+        ctx.drawImage(winImage,SCREEN_WIDTH/2-70,SCREEN_HEIGHT/2-10,140,30);
         //ctx.fillText("RESTART",SCREEN_WIDTH/2,SCREEN_HEIGHT/2+45);
         //ctx.strokeRect(SCREEN_WIDTH/2-70,SCREEN_HEIGHT/2+20,140,30);
         if(mouse.x>=SCREEN_WIDTH/2-70&&mouse.x<=SCREEN_WIDTH/2-70+140&&mouse.y>=SCREEN_HEIGHT/2+20&&mouse.y<=SCREEN_HEIGHT/2+20+30){
@@ -346,9 +346,9 @@ function render() {
                 break;
         }
         ctx.drawImage(titleImage,SCREEN_WIDTH/2-100,SCREEN_HEIGHT/2-120,200,100);
-        ctx.drawImage(numImage,SCREEN_WIDTH/2-75,SCREEN_HEIGHT/2-10);
-        ctx.drawImage(mizunomiImage,SCREEN_WIDTH/2-60,SCREEN_HEIGHT/2-10);
-        ctx.drawImage(startImage,SCREEN_WIDTH/2-70,SCREEN_HEIGHT/2+20);
+        ctx.drawImage(numImage,SCREEN_WIDTH/2-75,SCREEN_HEIGHT/2-10,30,30);
+        ctx.drawImage(mizunomiImage,SCREEN_WIDTH/2-60,SCREEN_HEIGHT/2-10,140,30);
+        ctx.drawImage(startImage,SCREEN_WIDTH/2-70,SCREEN_HEIGHT/2+20,140,30);
     //ctx.fillText("START",SCREEN_WIDTH/2,SCREEN_HEIGHT/2+45);
     //ctx.strokeRect(SCREEN_WIDTH/2-70,SCREEN_HEIGHT/2+20,140,30);
         if(mouse.x>=SCREEN_WIDTH/2-70&&mouse.x<=SCREEN_WIDTH/2-70+140&&mouse.y>=SCREEN_HEIGHT/2+20&&mouse.y<=SCREEN_HEIGHT/2+20+30){
