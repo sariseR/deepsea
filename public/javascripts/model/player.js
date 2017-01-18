@@ -5,7 +5,7 @@ var playerImage_1R = new Image();
 playerImage_1R.src = "images/player1R.png";
 var playerImage_1L = new Image();
 playerImage_1L.src = "images/player1.png";
-var Player = function(playerId, canvasWid, canvasHei) {
+var Player = function(playerId, canvasWid, canvasHei ,playerNum) {
   
   this.playerId = playerId;
   var bullets = new Array();//弾丸オブジェクト
@@ -25,7 +25,7 @@ var Player = function(playerId, canvasWid, canvasHei) {
   this.stageWid = canvasWid;//ステージ(移動できる範囲)の横幅
   this.stageHei = canvasHei;//ステージ(移動できる範囲)の縦幅
   this.bulletTimer = 0;//弾丸の連射速度を管理するタイマー
-  switch(playerId){//プレイヤーIDごとに初期位置をキャンバスサイズから個別に設定
+  switch(playerNum){//プレイヤーIDごとに初期位置をキャンバスサイズから個別に設定
       case 1:
           this.posX =canvasWid/6*1;
           this.posY = canvasHei/3*1;
@@ -234,10 +234,10 @@ Player.prototype.setShotFin=function(){
      this.alive =tf;
  }
 //リセット処理
- Player.prototype.reset =function(){
+ Player.prototype.reset =function(playerNum){
     this.alive = true;//生存しているかどうか
     this.bulletTimer = 0;//弾丸の連射速度を管理するタイマー
-     switch(this.playerId){//プレイヤーIDごとに初期位置をキャンバスサイズから個別に設定
+     switch(playerNum){//プレイヤーIDごとに初期位置をキャンバスサイズから個別に設定
       case 1:
           this.posX =this.stageWid/6*1;
           this.posY = this.stageHei/3*1;

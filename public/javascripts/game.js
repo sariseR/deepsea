@@ -3,7 +3,7 @@ const ctx = canvas.getContext('2d');
 const SCREEN_WIDTH = window.innerWidth + 1;
 const SCREEN_HEIGHT = window.innerHeight;
 const ROOM_ADDRESS = 'http://deepsea-rp.herokuapp.com';  // PC側のアドレス
-//const ROOM_ADDRESS = 'http://192.168.1.5:3000';  // PC側のアドレス
+//const ROOM_ADDRESS = 'http://192.168.1.71:3000';  // PC側のアドレス
 var socket = io.connect();  //socket IO
 var lastTimestamp = null;
 var room; //部屋オブジェクト
@@ -11,6 +11,7 @@ var players = new Array();  // プレイヤオブジェクトの配列
 var mousePless = false;//マウスが押されているかどうか
 var mouse = new Point();//マウスの座標を記憶するオブジェクトを生成
 var startflag = false;//対戦開始フラグ
+var gameTimer = 0;//ゲーム開始からの経過フレームレート数を記録
 var finishflag = false;//対戦終了フラフ
 var winPlayerId = 0;//生き残ったプレイヤーのid
 var playerCount=0;//生存プレイヤー人数
@@ -68,13 +69,14 @@ function init() {
         room.setId(data.value);
         console.log(data.value);
         $('#qrcode').qrcode(room.url());
-        //$('#conUrl').append('<p><a href=' + room.url() + '>controller</a></p>');
+        $('#conUrl').append('<p><a href=' + room.url() + '>controller</a></p>');
         console.log('success in ' + room.getId());
         console.log('canvas size '+canvas.width+":"+canvas.height);
     });
 
     socket.on(SocketSignals.stcMainPlayerLogin(),function(data) {
-        players.push(new Player(data.value,canvas.width,canvas.height));//プレイヤーを追加
+        var playerNum = players.length;//現在のこのルームに存在するプレイヤー人数
+        players.push(new Player(data.value,canvas.width,canvas.height,playerNum+1));//プレイヤーを追加
         console.log('player '+data.value+' login!');
     });
         socket.on(SocketSignals.stcConTouchFlg(), function(data) {
@@ -135,7 +137,7 @@ function update(timestamp) {
         startflag=true;
         finishflag=false;
         for(var i = 0; i < players.length; i++ ){
-            players[i].reset();
+            players[i].reset(i+1);
         }
         //弾丸オブジェクトが存在する場合全て削除する
         if(bullets.length != 0){
@@ -150,6 +152,10 @@ function update(timestamp) {
     
     if(finishflag == true){
         startflag =false;
+    }
+    //ゲーム開始カウントダウン
+    else if(startflag == true && gameTimer<=60){
+        gameTimer++;
     }
     //ゲームが開始している場合の処理
     else if(startflag==true){
@@ -182,6 +188,12 @@ function update(timestamp) {
         }
         
     }
+    //画面外の泡を削除
+    for(var i = bullets.length - 1; i >= 0 ; i-- ){
+        if(bullets[i].getPosY()<-20||bullets[i].getPosX>canvas.width+100||bullets[i].getPosX<-100){
+            bullets.splice(i,1);//削除
+        }
+    }
         
     //終了判定***********************************************
     playerCount = 0;
@@ -193,6 +205,7 @@ function update(timestamp) {
     }
     if(playerCount<=1){
         finishflag = true;
+        gameTimer = 0 ;//ゲームタイマーを初期化
     }
     //******************************************************
     /*
@@ -312,7 +325,7 @@ function render() {
         }
         ctx.drawImage(restartImage,SCREEN_WIDTH/2-70,SCREEN_HEIGHT/2+20,140,30);
     }
-    else if(startflag==false){
+    else if(startflag==false||gameTimer<60){
     ctx.font = "24px 'ＭＳ Ｐゴシック'";
     ctx.fillStyle = "rgba(205,205,205,1)";
     ctx.strokeStyle = "rgba(205,205,250,1)";
@@ -345,13 +358,16 @@ function render() {
                 numImage = image_0;
                 break;
         }
+        ctx.globalAlpha=1.0-gameTimer/60;//透明度を調整
         ctx.drawImage(titleImage,SCREEN_WIDTH/2-100,SCREEN_HEIGHT/2-120,200,100);
         ctx.drawImage(numImage,SCREEN_WIDTH/2-75,SCREEN_HEIGHT/2-10,30,30);
         ctx.drawImage(mizunomiImage,SCREEN_WIDTH/2-60,SCREEN_HEIGHT/2-10,140,30);
+        //ctx.drawImage(startImage,SCREEN_WIDTH/2-70,SCREEN_HEIGHT/2+20,140,30);
         ctx.drawImage(startImage,SCREEN_WIDTH/2-70,SCREEN_HEIGHT/2+20,140,30);
+        ctx.globalAlpha=1.0;//透明度を調整
     //ctx.fillText("START",SCREEN_WIDTH/2,SCREEN_HEIGHT/2+45);
     //ctx.strokeRect(SCREEN_WIDTH/2-70,SCREEN_HEIGHT/2+20,140,30);
-        if(mouse.x>=SCREEN_WIDTH/2-70&&mouse.x<=SCREEN_WIDTH/2-70+140&&mouse.y>=SCREEN_HEIGHT/2+20&&mouse.y<=SCREEN_HEIGHT/2+20+30){
+        if(startflag==false&&mouse.x>=SCREEN_WIDTH/2-70&&mouse.x<=SCREEN_WIDTH/2-70+140&&mouse.y>=SCREEN_HEIGHT/2+20&&mouse.y<=SCREEN_HEIGHT/2+20+30){
         ctx.fillStyle = "rgba(205,205,205,0.2)";
         ctx.fillRect(SCREEN_WIDTH/2-70,SCREEN_HEIGHT/2+20,140,30);
     }

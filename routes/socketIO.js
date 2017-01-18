@@ -44,13 +44,13 @@ function socketIO() {
           var nowNum = playerCountMap.get(data.value);//現在の人数を取得
           playerId = nowNum + 1;//プレイヤーのIDを現在の部屋の人数＋１に設置
           playerCountMap.set(data.value,nowNum+1);//人数を一人増やす
-          if(playerId<=6){
+          //if(playerId<=6){
           console.log('Controller in ' + data.value + ' No.'+ playerId);
           userHash[socket.id] = playerId;
           roomHash[socket.id] = data.value;
           //ルームにプレイヤーがログインしたことを伝える
           io.to(data.value).emit(SocketSignals.stcMainPlayerLogin(),{value: playerId});
-          }
+          //}
         });
 
         // タッチイベントを取得
